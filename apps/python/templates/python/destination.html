@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Destination</title>
+  </head>
+  <body>
+    <a href="/travels">Home</a>
+    <a href="/logout">Logout</a>
+      <div class="location">
+        <h2>{{trips.destination}}</h2>
+          <p>Planned By: {{trips.planner.first_name}} {{trips.planner.last_name}}</p>
+          <p>Description: {{trips.description}}</p>
+          <p>Travel Date From: {{trips.datefrom}}</p>
+          <p>Travel Date To: {{trips.dateto}}</p>
+      </div>
+      <hr>
+      <div class="tripjoiners">
+          <h3>Others users' joining the trip:</h3>
+          {% if trips %}
+          {% for joiner in trips.joiners.all %}
+          <p>Name: {{joiner.first_name}} {{joiner.last_name}}</p>
+          <p>Username: {{joiner.username}}</p>
+          {% endfor %}
+          {% endif %}
+
+      </div>
+  </body>
+</html>

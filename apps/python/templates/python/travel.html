@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Travel Dashboard</title>
+  </head>
+  <body>
+    {% if messages %}
+    {% for message in messages %}
+      <p>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    <h2>Welcome, {{user.username}}!</h2>
+    <a href="/logout">Logout</a>
+    <h3>Your Trip Schedules:</h3>
+    <div class="MyTrips">
+        <table>
+            {% for trip in trips %}
+            {% if trip in user.plannedtrips.all or trip.planner.username == user.username %}
+            <tr>
+                <td class="destination">Destination: </td>
+                <td><a href="/destination/{{trip.id}}"> {{trip.destination}}</a> </td>
+            </tr>
+            <tr>
+                <td class="start">Start Date: </td>
+                <td>{{trip.datefrom}}</td>
+            </tr>
+            <tr>
+                <td class="end">End Date: </td>
+                <td>{{trip.dateto}}</td>
+            </tr>
+            <tr>
+                <td class="plan">Plan: </td>
+                <td>{{trip.description}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        <hr>
+    </div>
+    <div class="OtherTravlers">
+      <h3>Future Travel Buddy?</h3>
+      <table>
+        {% for trip in trips %}
+        {% if trip.planner.username != user.username and trip not in user.plannedtrips.all %}
+          <tr>
+              <td class="name">Name:</td>
+              <td>{{trip.planner.first_name}}</td>
+          </tr>
+          <tr>
+              <td class="destination">Destination:</td>
+              <td><a href="/destination/{{trip.id}}">{{trip.destination}}</a></td>
+          </tr>
+          <tr>
+              <td class="start">Travel Start Date:</td>
+              <td>{{trip.datefrom}}</td>
+          </tr>
+          <tr>
+              <td class="end">Travel End Date:</td>
+              <td>{{trip.dateto}}</td>
+          </tr>
+          <tr>
+              <td class="join">Make a travel buddy?:</td>
+              <td><a href="/join/{{trip.id}}">Join</a></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+      </table>
+    </div>
+    <hr>
+    <a href="/add">Add Travel Plan</a>
+    <hr>
+  </body>
+</html>
